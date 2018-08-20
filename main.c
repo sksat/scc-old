@@ -1,5 +1,6 @@
 #include "util.h"
 #include "string.h"
+#include "token.h"
 
 int main(int argc, char **argv){
 	if(argc != 2){
@@ -13,6 +14,8 @@ int main(int argc, char **argv){
 	string_t *src = read_file(fp);
 
 	string_print(src);
+
+	get_token(src);
 
 	// tokenize
 	// parse

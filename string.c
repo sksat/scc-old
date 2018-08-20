@@ -23,6 +23,24 @@ char string_get(string_t *str, size_t pos){
 	return str->data[pos];
 }
 
+bool string_cmp(string_t *s1, string_t *s2){
+	size_t i;
+	if(s1->size != s2->size) return false;
+	for(i=0; i<s1->size; i++){
+		if(s1->data[i] != s2->data[i]) return false;
+	}
+	return true;
+}
+
+bool string_match(string_t *str, string_t *s){
+	size_t i;
+	if(str->size < s->size) return false;
+	for(i=0; i<s->size; i++){
+		if(str->data[i] != s->data[i]) return false;
+	}
+	return true;
+}
+
 void string_print(string_t *str){
 	size_t i;
 	for(i=0; i<str->size; i++){
