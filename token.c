@@ -23,12 +23,15 @@ void init_token(){
 	}
 }
 
-token_t get_token(string_t *src){
+token_t* get_token(string_t *src){
 	size_t i;
+	token_t* tok = (token_t*)malloc(sizeof(token_t));
 	for(i=0; i<types->size; i++){
 		string_t *t = vector_get(types, i);
 		if(string_match(src, t)){
-				printf("match: %s\n", t->data);
+			tok->str = t;
+			return tok;
 		}
 	}
+	return NULL;
 }

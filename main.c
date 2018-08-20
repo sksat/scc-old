@@ -11,17 +11,25 @@ int main(int argc, char **argv){
 	FILE *fp = fopen(argv[1], "r");
 	if(fp == NULL) error("cannot open file: \"%s\"", argv[1]);
 
-	string_t *src = read_file(fp);
+	string_t *all_src = read_file(fp);
+	string_t *src = all_src;
 
 	string_print(src);
 
 	init_token();
-	get_token(src);
+	while(true){
+		token_t *tok = get_token(src);
+		if(tok == NULL) break;
+		string_slide(src, tok->str->size);
+		printf("\"");
+		string_print(tok->str);
+		printf("\"\n");
+	}
 
 	// tokenize
 	// parse
 	// generate code
 
-	string_free(src);
+	//string_free(all_src);
 	fclose(fp);
 }

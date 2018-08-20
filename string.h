@@ -12,6 +12,8 @@ typedef struct {
 string_t* string_new(size_t size);
 void string_free(string_t *str);
 
+void string_slide(string_t *str, size_t i);
+
 string_t* to_string(const char *s);
 
 void string_set(string_t *str, size_t pos, char c);

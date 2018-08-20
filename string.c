@@ -15,6 +15,12 @@ void string_free(string_t *str){
 	free(str);
 }
 
+void string_slide(string_t *str, size_t i){
+	if(str->size < i) error("slide failed");
+	str->data += i;
+	str->size -= i;
+}
+
 string_t* to_string(const char *s){
 	string_t *str = string_new(strlen(s));
 	str->data = (void*)s;

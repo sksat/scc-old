@@ -12,10 +12,10 @@ typedef enum {
 
 typedef struct {
 	int type;
-	string_t str;
+	string_t *str;
 } token_t;
 
 void init_token();
-token_t get_token(string_t* src);
+token_t* get_token(string_t* src);
 
 #endif
