@@ -14,3 +14,20 @@ size_t get_filesize(FILE *fp){
 	fseek(fp, 0L, SEEK_SET);
 	return size;
 }
+
+string_t* read_file(FILE *fp){
+	int c;
+	size_t i = 0;
+
+	size_t fsize = get_filesize(fp);
+
+	string_t *str = string_new(fsize);
+
+	while(c = fgetc(fp)){
+		if(c == EOF) break;
+		string_set(str, i, c);
+		i++;
+	}
+
+	return str;
+}
