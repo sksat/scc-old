@@ -1,3 +1,6 @@
+#ifndef STRING_H_
+#define STRING_H_
+
 #include <stdlib.h>
 
 typedef struct {
@@ -11,3 +14,5 @@ void string_free(string_t *str);
 void string_set(string_t *str, size_t pos, char c);
 char string_get(string_t *str, size_t pos);
 void string_print(string_t *str);
+
+#endif
