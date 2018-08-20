@@ -1,3 +1,4 @@
+#include <string.h>
 #include "string.h"
 #include "util.h"
 
@@ -12,6 +13,12 @@ string_t* string_new(size_t size){
 void string_free(string_t *str){
 	free(str->data);
 	free(str);
+}
+
+string_t* to_string(const char *s){
+	string_t *str = string_new(strlen(s));
+	str->data = (void*)s;
+	return str;
 }
 
 void string_set(string_t *str, size_t pos, char c){

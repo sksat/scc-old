@@ -15,6 +15,7 @@ typedef struct {
 	string_t str;
 } token_t;
 
+void init_token();
 token_t get_token(string_t* src);
 
 #endif

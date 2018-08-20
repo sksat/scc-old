@@ -2,7 +2,7 @@ CC		= gcc -S
 CFLAGS	= -O0
 
 TARGET	= scc
-OBJS	= main.o util.o string.o token.o
+OBJS	= main.o util.o vector.o string.o token.o
 
 RUNFLAGS= test.c
 

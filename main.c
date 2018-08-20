@@ -15,6 +15,7 @@ int main(int argc, char **argv){
 
 	string_print(src);
 
+	init_token();
 	get_token(src);
 
 	// tokenize
