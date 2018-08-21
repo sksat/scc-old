@@ -15,8 +15,17 @@ void parse_impl(ast_t* parent, vector_t* token_list){
 				vector_push_back(sub->node, tok); // 型
 				i++;
 				tok = vector_get(token_list, i);
-				vector_push_back(sub->node, tok); // 変数名
+				if(string_get(tok->str, 0) == '*'){
+					printf("warning: not implemented def-pointer.\n");
+					continue;
+				}
+				vector_push_back(sub->node, tok); // 変数・関数名
 				i++;
+				tok = vector_get(token_list, i);
+				if(string_get(tok->str, 0) == '('){
+					printf("warning: not implemented def-function.\n");
+					continue;
+				}
 				vector_push_back(parent->node, sub);
 				break;
 			default:
