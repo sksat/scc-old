@@ -2,6 +2,7 @@
 #include "string.h"
 #include "vector.h"
 #include "token.h"
+#include "parse.h"
 
 int main(int argc, char **argv){
 	if(argc != 2){
@@ -17,10 +18,9 @@ int main(int argc, char **argv){
 
 	string_print(src);
 
+	// tokenize
 	init_token();
-
 	vector_t *token_list = vector_new(0);
-
 	while(true){
 		token_t *tok = get_token(src);
 		if(tok == NULL) break;
@@ -37,8 +37,9 @@ int main(int argc, char **argv){
 		printf("\"\n");
 	}
 
-	// tokenize
 	// parse
+	ast_t* ast = parse(token_list);
+
 	// generate code
 
 	//string_free(all_src);
