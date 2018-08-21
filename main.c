@@ -1,5 +1,6 @@
 #include "util.h"
 #include "string.h"
+#include "vector.h"
 #include "token.h"
 
 int main(int argc, char **argv){
@@ -17,12 +18,22 @@ int main(int argc, char **argv){
 	string_print(src);
 
 	init_token();
+
+	vector_t *token_list = vector_new(0);
+
 	while(true){
 		token_t *tok = get_token(src);
 		if(tok == NULL) break;
 		string_slide(src, tok->str->size);
+		if(tok == &space_token) continue;
+		vector_push_back(token_list, tok);
+	}
+
+	printf("token list:\n");
+	for(size_t i=0; i<token_list->size; i++){
 		printf("\"");
-		string_print(tok->str);
+		token_t *t = vector_get(token_list, i);
+		string_print(t->str);
 		printf("\"\n");
 	}
 
@@ -31,5 +42,6 @@ int main(int argc, char **argv){
 	// generate code
 
 	//string_free(all_src);
+	vector_free(token_list);
 	fclose(fp);
 }
