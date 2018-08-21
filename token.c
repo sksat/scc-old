@@ -74,6 +74,7 @@ token_t* get_token(string_t *src){
 		string_t *t = vector_get(types, i);
 		if(string_match(src, t)){
 			tok->str = t;
+			tok->type = tType;
 			return tok;
 		}
 	}
@@ -81,6 +82,7 @@ token_t* get_token(string_t *src){
 		string_t *t = vector_get(delimiters, i);
 		if(string_match(src, t)){
 			tok->str = t;
+			tok->type= tDelim;
 			return tok;
 		}
 	}
@@ -94,6 +96,7 @@ token_t* get_token(string_t *src){
 				tok->str = (string_t*)malloc(sizeof(string_t));
 				tok->str->data = src->data;
 				tok->str->size = i;
+				tok->type = tUnknown;
 				return tok;
 			}
 		}

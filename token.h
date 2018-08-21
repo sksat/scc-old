@@ -5,9 +5,13 @@
 #include "util.h"
 
 typedef enum {
-	tInteger,
-	tString,
-	tChar,
+	tUnknown,	// temporary
+	tType,		// int,char
+	tInteger,	// 10
+	tString,	// "hoge"
+	tChar,		// 'c'
+	tDelim,
+	tOperator,
 } TokenType;
 
 typedef struct {
