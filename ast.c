@@ -30,12 +30,11 @@ void ast_print_impl(size_t indent, ast_t* ast){
 			break;
 		case aDefVar:
 			print_indent(indent);
-			printf("def-var(");
-			printf("size: %u", ast->node->size);
+			printf("def-var[%u](", ast->node->size);
 			{
 				token_t* t_type = vector_get(ast->node, 0);
 				token_t* t_name = vector_get(ast->node, 1);
-				printf(", type: ");
+				printf("type: ");
 				string_print(t_type->str);
 				printf(", name: ");
 				string_print(t_name->str);
