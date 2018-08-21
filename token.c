@@ -90,7 +90,7 @@ token_t* get_token(string_t *src){
 		c = string_get(src, i);
 		for(k=0; k<delimiters->size; k++){
 			string_t* d = vector_get(delimiters, k);
-			if(c == string_get(d, 0)){
+			if(c == string_get(d, 0) || c == '\n' || c == '\t' || c == ' '){
 				tok->str = (string_t*)malloc(sizeof(string_t));
 				tok->str->data = src->data;
 				tok->str->size = i;
