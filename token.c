@@ -11,7 +11,7 @@ void init_token(){
 		"char",
 		"int",
 	};
-	static char* delimiter_str[37] = {
+	static char* delimiter_str[38] = {
 		"(", ")",
 		"{", "}",
 		"[", "]",
@@ -26,7 +26,7 @@ void init_token(){
 		"==", "=",
 		"!=", "!",
 		"%=", "%",
-		",", "?", "^",
+		",", "?", "^", ";",
 	};
 
 	types = vector_new(0);
@@ -36,7 +36,7 @@ void init_token(){
 	for(i=0; i<2; i++){
 		vector_push_back(types, to_string(default_types[i]));
 	}
-	for(i=0; i<37; i++){
+	for(i=0; i<38; i++){
 		vector_push_back(delimiters, to_string(delimiter_str[i]));
 	}
 
