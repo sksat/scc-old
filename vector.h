@@ -2,7 +2,7 @@
 #define VECTOR_H_
 
 typedef struct {
-	size_t size;
+	size_t size, reserved;
 	void **data;
 } vector_t;
 

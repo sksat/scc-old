@@ -1,10 +1,12 @@
 #include <stdlib.h>
 #include "vector.h"
+#include "util.h"
 
 vector_t* vector_new(size_t size){
 	vector_t *vec = (vector_t*)malloc(sizeof(vector_t));
 	vec->size = size;
-	vec->data = malloc(size);
+	vec->reserved = size * sizeof(void*);
+	vec->data = malloc(vec->reserved);
 }
 
 void vector_free(vector_t *vec){
@@ -21,7 +23,12 @@ void* vector_get(vector_t *vec, size_t pos){
 }
 
 void vector_push_back(vector_t *vec, void *ptr){
-	vec->data = realloc(vec->data, vec->size + 1);
+	size_t tmp = (vec->size + 1) * sizeof(void*);
+	if(tmp > vec->reserved){
+		vec->data = realloc(vec->data, tmp);
+		if(vec->data == NULL) error("realloc error");
+	}
+	vec->reserved = tmp;
 	vec->data[vec->size] = ptr;
 	vec->size++;
 }
