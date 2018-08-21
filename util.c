@@ -31,3 +31,8 @@ string_t* read_file(FILE *fp){
 
 	return str;
 }
+
+void print_indent(size_t indent){
+	size_t i;
+	for(i=0;i<indent;i++) putchar(' ');
+}

@@ -12,4 +12,6 @@ void error(const char *fmt, ...);
 size_t get_filesize(FILE *fp);
 string_t* read_file(FILE *fp);
 
+void print_indent(size_t i);
+
 #endif
