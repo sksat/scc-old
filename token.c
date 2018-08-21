@@ -109,3 +109,16 @@ token_t* get_token(string_t *src){
 	}
 	return tok;
 }
+
+const char* token_type2name(int type){
+	switch(type){
+		case tType:  return "type";
+		case tDigit: return "digit";
+		case tString:return "string";
+		case tChar:  return "char";
+		case tDelim: return "delim";
+		case tOperator: return "operator";
+		default:
+			return "?";
+	}
+}
