@@ -54,6 +54,14 @@ bool string_match(string_t *str, string_t *s){
 	return true;
 }
 
+bool string_is_digit(string_t *str){
+	size_t i;
+	for(i=0; i<str->size; i++){
+		if(str->data[i] < '0' || '9' < str->data[i]) return false;
+	}
+	return true;
+}
+
 void string_print(string_t *str){
 	size_t i;
 	for(i=0; i<str->size; i++){

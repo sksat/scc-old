@@ -22,6 +22,8 @@ char string_get(string_t *str, size_t pos);
 bool string_cmp(string_t *s1, string_t *s2);
 bool string_match(string_t *str, string_t *s);
 
+bool string_is_digit(string_t *str);
+
 void string_print(string_t *str);
 
 #endif

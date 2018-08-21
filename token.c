@@ -97,6 +97,7 @@ token_t* get_token(string_t *src){
 				tok->str->data = src->data;
 				tok->str->size = i;
 				tok->type = tUnknown;
+				if(string_is_digit(tok->str)) tok->type = tDigit;
 				return tok;
 			}
 		}
