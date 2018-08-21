@@ -32,7 +32,7 @@ void string_set(string_t *str, size_t pos, char c){
 }
 
 char string_get(string_t *str, size_t pos){
-	if(str->size > pos) error("string_t size error");
+	if(str->size <= pos) error("string_t size error");
 	return str->data[pos];
 }
 
