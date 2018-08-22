@@ -26,6 +26,20 @@ void parse_impl(ast_t* parent, vector_t* token_list){
 					printf("warning: not implemented def-function.\n");
 					continue;
 				}
+				{
+					char c = string_get(tok->str, 0);
+					if(c != ';' && c!= '=') error("expected \';\' or \'=\'\n");
+					else if(c == '='){
+						ast_t* expr = ast_new();
+						expr->type = aExpr;
+						for(i++;i<token_list->size;i++){
+							tok = vector_get(token_list, i);
+							if(string_get(tok->str, 0) == ';') break;
+							vector_push_back(expr->node, tok);
+						}
+						vector_push_back(sub->node, expr);
+					}
+				}
 				vector_push_back(parent->node, sub);
 				break;
 			default:
