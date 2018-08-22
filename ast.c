@@ -34,13 +34,30 @@ void ast_print_impl(size_t indent, ast_t* ast){
 			{
 				token_t* t_type = vector_get(ast->node, 0);
 				token_t* t_name = vector_get(ast->node, 1);
+				token_t* t_expr = NULL;
+				if(ast->node->size == 3) t_expr = vector_get(ast->node, 2);
 				printf("type: ");
 				string_print(t_type->str);
 				printf(", name: ");
 				string_print(t_name->str);
+				if(t_expr != NULL){
+					printf(", expr: ");
+					ast_print_impl(0, t_expr);
+				}
 			}
 
 			printf(")\n");
+			break;
+		case aExpr:
+			print_indent(indent);
+			printf("expr(");
+			for(size_t i=0;i<ast->node->size;i++){
+				token_t* t = vector_get(ast->node, i);
+				printf("[");
+				string_print(t->str);
+				printf("] ");
+			}
+			printf(")");
 			break;
 		default:
 			print_indent(indent);
