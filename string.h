@@ -10,6 +10,7 @@ typedef struct {
 } string_t;
 
 string_t* string_new(size_t size);
+string_t* string_view(string_t *origin, size_t start, size_t size);
 void string_free(string_t *str);
 
 void string_slide(string_t *str, size_t i);

@@ -10,6 +10,13 @@ string_t* string_new(size_t size){
 	return str;
 }
 
+string_t* string_view(string_t* origin, size_t start, size_t size){
+	string_t* str = (string_t*)malloc(sizeof(string_t));
+	str->size = size;
+	str->data = origin->data + start;
+	return str;
+}
+
 void string_free(string_t *str){
 	free(str->data);
 	free(str);
