@@ -26,6 +26,7 @@ int main(int argc, char **argv){
 		if(tok == NULL) break;
 		string_slide(src, tok->str->size);
 		if(tok == &space_token) continue;
+		if(tok->type == tComment) continue;
 		vector_push_back(token_list, tok);
 	}
 
