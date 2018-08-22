@@ -57,7 +57,33 @@ token_t* get_token(string_t *src){
 
 	if(src->size == 0) return NULL;
 
+	tok = (token_t*)malloc(sizeof(token_t));
+	tok->str = NULL;
+
 	char c = string_get(src, 0);
+
+	// comment
+	if(c == '/'){
+		char c2 = string_get(src, 1);
+		if(c2 == '/'){
+			for(i=2;i<src->size;i++){
+				if(string_get(src, i) == '\n'){
+					tok->str = string_view(src, 0, i);
+					tok->type= tComment;
+					return tok;
+				}
+			}
+		}else if(c2 == '*'){
+			for(i=3;i<src->size;i++){
+				if(string_get(src, i-1) == '*' && string_get(src, i) == '/'){
+					tok->str = string_view(src, 0, i+1);
+					tok->type= tComment;
+					return tok;
+				}
+			}
+		}
+	}
+
 	switch(c){
 		case ' ':
 		case '\t':
@@ -66,9 +92,6 @@ token_t* get_token(string_t *src){
 		default:
 			break;
 	}
-
-	tok = (token_t*)malloc(sizeof(token_t));
-	tok->str = NULL;
 
 	for(i=0; i<types->size; i++){
 		string_t *t = vector_get(types, i);
@@ -93,9 +116,7 @@ token_t* get_token(string_t *src){
 		for(k=0; k<delimiters->size; k++){
 			string_t* d = vector_get(delimiters, k);
 			if(c == string_get(d, 0) || c == '\n' || c == '\t' || c == ' '){
-				tok->str = (string_t*)malloc(sizeof(string_t));
-				tok->str->data = src->data;
-				tok->str->size = i;
+				tok->str = string_view(src, 0, i);
 				tok->type = tUnknown;
 				if(string_is_digit(tok->str)) tok->type = tDigit;
 				return tok;
@@ -112,12 +133,13 @@ token_t* get_token(string_t *src){
 
 const char* token_type2name(int type){
 	switch(type){
-		case tType:  return "type";
-		case tDigit: return "digit";
-		case tString:return "string";
-		case tChar:  return "char";
-		case tDelim: return "delim";
-		case tOperator: return "operator";
+		case tComment:	return "comment";
+		case tType:		return "type";
+		case tDigit:	return "digit";
+		case tString:	return "string";
+		case tChar:		return "char";
+		case tDelim:	return "delim";
+		case tOperator:	return "operator";
 		default:
 			return "?";
 	}
