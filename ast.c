@@ -1,9 +1,11 @@
 #include <stddef.h>
 #include "ast.h"
 
-ast_t* ast_new(){
-	ast_t* ret = (ast_t*)malloc(sizeof(ast_t));
-	ret->node = vector_new(0);
+ast_t* ast_new(ast_t *parent){
+	ast_t* ret	= (ast_t*)malloc(sizeof(ast_t));
+	ret->parent	= parent;
+	ret->token	= NULL;
+	ret->node	= vector_new(0);
 	return ret;
 }
 
@@ -50,15 +52,18 @@ void ast_print_impl(size_t indent, ast_t* ast){
 			break;
 		case aExpr:
 			print_indent(indent);
-			printf("expr(");
+			printf("expr[%u]<< ", ast->node->size);
 			for(size_t i=0;i<ast->node->size;i++){
 				ast_t* var = vector_get(ast->node, i);
-				token_t* t = vector_get(var->node, 0);
 				printf("[");
-				string_print(t->str);
+				if(var->type == aExpr)
+					ast_print_impl(0, var);
+				else
+					string_print(var->token->str);
 				printf("] ");
 			}
-			printf(")\n");
+			printf(">>");
+			if(ast->parent->type != aExpr) printf("\n");
 			break;
 		default:
 			print_indent(indent);

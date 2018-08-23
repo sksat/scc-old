@@ -2,7 +2,7 @@
 #include "parse.h"
 
 void parse_expr_impl(ast_t* parent, vector_t* token_list, size_t start, size_t end){
-	ast_t* expr = ast_new();
+	ast_t* expr = ast_new(parent);
 	expr->type = aExpr;
 	token_t* tok;
 	size_t i;
@@ -14,11 +14,12 @@ void parse_expr_impl(ast_t* parent, vector_t* token_list, size_t start, size_t e
 				tok = vector_get(token_list, k);
 				if(tok->type == tBracketEnd) break;
 			}
-			parse_expr_impl(expr, token_list, i+1, k);
+			parse_expr_impl(expr, token_list, i+1, k-1);
+			i = k;
 		}else{
-			ast_t* sub = ast_new();
+			ast_t* sub = ast_new(parent);
 			sub->type = aVar;
-			vector_push_back(sub->node, tok);
+			sub->token= tok;
 			vector_push_back(expr->node, sub);
 		}
 	}
@@ -54,7 +55,7 @@ size_t parse_block(ast_t* parent, vector_t* token_list, size_t i){
 			// node[0]: 型
 			// node[1]: 変数名
 			// node[2]: 式のAST
-			ast = ast_new();
+			ast = ast_new(parent);
 			ast->type = aDefVar;
 			vector_push_back(ast->node, tok);			// 型
 			tok = vector_get(token_list, i+1); read++;	// 変数名
@@ -78,7 +79,7 @@ size_t parse_block(ast_t* parent, vector_t* token_list, size_t i){
 }
 
 ast_t* parse(vector_t *token_list){
-	ast_t *global = ast_new();
+	ast_t *global = ast_new(NULL);
 	global->type = aGlobal;
 
 	size_t i;
