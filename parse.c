@@ -15,7 +15,7 @@ void parse_expr_impl(ast_t* parent, vector_t* token_list, size_t start, size_t e
 				if(tok->type == tBracketEnd) break;
 			}
 			parse_expr_impl(expr, token_list, i+1, k-1);
-			i = k;
+			i = k+1;
 		}else{
 			ast_t* sub = ast_new(parent);
 			sub->type = aVar;
