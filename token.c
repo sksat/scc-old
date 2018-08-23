@@ -107,9 +107,9 @@ token_t* get_token(string_t *src){
 		string_t *t = vector_get(delimiters, i);
 		if(string_match(src, t)){
 			tok->str = t;
-			tok->type= tDelim;
-			if(i < (tOperator - tDelim -1))
-				tok->type += i + 1;
+			if((tDelim+i) < tOperator)
+				tok->type = tDelim + i + 1;
+			else tok->type = tOperator;
 			return tok;
 		}
 	}
@@ -143,7 +143,7 @@ const char* token_type2name(int type){
 		case tString:	return "string";
 		case tChar:		return "char";
 		case tDelim:	return "delim";
-		case tOperator:	return "operator";
+		case tOperator:	return "op";
 		default:
 			if(tDelim < type && type < tOperator)
 				return delimiter_str[type - tDelim -1];

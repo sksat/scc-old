@@ -6,7 +6,7 @@ size_t parse_block(ast_t* parent, vector_t* token_list, size_t i){
 	token_t* tok = vector_get(token_list, i);
 	switch(tok->type){
 		case tBlockStart:
-			error("not implemented: child block");
+			error("not implemented: child block.\n");
 			break;
 		case tBlockEnd:
 			return 0;
@@ -24,6 +24,11 @@ size_t parse_block(ast_t* parent, vector_t* token_list, size_t i){
 
 			vector_push_back(parent->node, ast);
 			return 2;
+		default:
+			printf("unknown token: ");
+			string_print(tok->str);
+			printf("\n");
+			return 0;
 	}
 }
 

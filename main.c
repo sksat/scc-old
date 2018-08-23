@@ -33,7 +33,7 @@ int main(int argc, char **argv){
 	printf("token list:\n");
 	for(size_t i=0; i<token_list->size; i++){
 		token_t *t = vector_get(token_list, i);
-		printf("%s:\t\"", token_type2name(t->type));
+		printf("\t%s\t\"", token_type2name(t->type));
 		string_print(t->str);
 		printf("\"\n");
 	}
