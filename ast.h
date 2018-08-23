@@ -9,6 +9,7 @@ typedef enum {
 	aBlock,
 	aDefVar,
 	aExpr,
+	aVar,
 } ASTType;
 
 typedef struct {

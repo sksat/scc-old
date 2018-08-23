@@ -1,26 +1,42 @@
 #include <stddef.h>
 #include "parse.h"
 
-size_t parse_expr(ast_t* parent, vector_t* token_list, size_t i){
+void parse_expr_impl(ast_t* parent, vector_t* token_list, size_t start, size_t end){
 	ast_t* expr = ast_new();
 	expr->type = aExpr;
 	token_t* tok;
+	size_t i;
+	for(i=start;i<=end;i++){
+		tok = vector_get(token_list, i);
+		if(tok->type == tBracketStart){
+			size_t k;
+			for(k=i;k<=end;k++){
+				tok = vector_get(token_list, k);
+				if(tok->type == tBracketEnd) break;
+			}
+			parse_expr_impl(expr, token_list, i+1, k);
+		}else{
+			ast_t* sub = ast_new();
+			sub->type = aVar;
+			vector_push_back(sub->node, tok);
+			vector_push_back(expr->node, sub);
+		}
+	}
+	vector_push_back(parent->node, expr);
+}
+
+size_t parse_expr(ast_t* parent, vector_t* token_list, size_t start){
+	token_t* tok;
 	size_t read = 0;
-	size_t k;
-	for(k=i;i<token_list->size;k++){
-		tok = vector_get(token_list, k);
+	size_t i;
+	for(i=start;i<token_list->size;i++){
+		tok = vector_get(token_list, i);
 		read++;
 		if(tok->type == tSemicolon) break;
 	}
-	// token_listの[i]〜[k]が式のtoken
 
-	// とりあえずexpr->nodeに詰めておく
-	for(size_t tmp=i;tmp!=k;tmp++){
-		tok = vector_get(token_list, tmp);
-		vector_push_back(expr->node, tok);
-	}
+	parse_expr_impl(parent, token_list, start, i-1);
 
-	vector_push_back(parent->node, expr);
 	return read;
 }
 

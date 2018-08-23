@@ -52,7 +52,8 @@ void ast_print_impl(size_t indent, ast_t* ast){
 			print_indent(indent);
 			printf("expr(");
 			for(size_t i=0;i<ast->node->size;i++){
-				token_t* t = vector_get(ast->node, i);
+				ast_t* var = vector_get(ast->node, i);
+				token_t* t = vector_get(var->node, 0);
 				printf("[");
 				string_print(t->str);
 				printf("] ");
