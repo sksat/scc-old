@@ -11,7 +11,11 @@ typedef enum {
 	tDigit,		// 10
 	tString,	// "hoge"
 	tChar,		// 'c'
-	tDelim,
+	tDelim,		// ここから先はdelim_strに合わせる
+	tBracketStart, tBracketEnd,	// (,)
+	tBlockStart, tBlockEnd,		// {,}
+	tSBracketStart, tSBracketEnd,// [,]
+	tComma, tQuestion, tColon, tSemicolon, // , ? : ;
 	tOperator,
 } TokenType;
 

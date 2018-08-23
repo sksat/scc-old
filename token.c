@@ -6,29 +6,31 @@ vector_t *delimiters;
 
 token_t space_token;
 
-void init_token(){
-	static char* default_types[2] = {
-		"char",
-		"int",
-	};
-	static char* delimiter_str[38] = {
-		"(", ")",
-		"{", "}",
-		"[", "]",
-		"&&", "&=", "&",
-		"||", "|=", "|",
-		"<<", "<=", "<",
-		">=", ">",
-		"--", "-=", "->", "-",
-		"++", "+=", "+",
-		"*=", "*",
-		"/=", "/",
-		"==", "=",
-		"!=", "!",
-		"%=", "%",
-		",", "?", "^", ";",
-	};
+char* default_types[2] = {
+	"char",
+	"int",
+};
 
+char* delimiter_str[40] = {
+	"(", ")",
+	"{", "}",
+	"[", "]",
+	",", "?", ":", ";",
+	"&&", "&=", "&",
+	"||", "|=", "|",
+	"<<", "<=", "<",
+	">=", ">",
+	"--", "-=", "->", "-",
+	"++", "+=", "+",
+	"*=", "*",
+	"/=", "/",
+	"==", "=",
+	"!=", "!",
+	"%=", "%",
+	"^=", "^"
+};
+
+void init_token(){
 	types = vector_new(0);
 	delimiters = vector_new(0);
 
@@ -36,7 +38,7 @@ void init_token(){
 	for(i=0; i<2; i++){
 		vector_push_back(types, to_string(default_types[i]));
 	}
-	for(i=0; i<38; i++){
+	for(i=0; i<40; i++){
 		vector_push_back(delimiters, to_string(delimiter_str[i]));
 	}
 
@@ -106,6 +108,8 @@ token_t* get_token(string_t *src){
 		if(string_match(src, t)){
 			tok->str = t;
 			tok->type= tDelim;
+			if(i < (tOperator - tDelim -1))
+				tok->type += i + 1;
 			return tok;
 		}
 	}
@@ -141,6 +145,8 @@ const char* token_type2name(int type){
 		case tDelim:	return "delim";
 		case tOperator:	return "operator";
 		default:
-			return "?";
+			if(tDelim < type && type < tOperator)
+				return delimiter_str[type - tDelim -1];
+			return "ident";
 	}
 }
