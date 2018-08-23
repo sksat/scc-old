@@ -8,7 +8,7 @@ typedef enum {
 	tUnknown,	// temporary
 	tComment,
 	tType,		// int,char
-	tDigit,	// 10
+	tDigit,		// 10
 	tString,	// "hoge"
 	tChar,		// 'c'
 	tDelim,
