@@ -50,6 +50,9 @@ size_t parse_block(ast_t* parent, vector_t* token_list, size_t i){
 			}
 			vector_push_back(parent->node, ast);
 			return read;
+		case tUnknown:
+		case tDigit:
+			return parse_expr(parent, token_list, i) - 1;
 		default:
 			printf("unknown token: ");
 			string_print(tok->str);

@@ -41,7 +41,7 @@ void ast_print_impl(size_t indent, ast_t* ast){
 				printf(", name: ");
 				string_print(t_name->str);
 				if(a_expr != NULL){
-					printf(", expr: ");
+					printf(", ");
 					ast_print_impl(0, a_expr);
 				}
 			}
@@ -57,7 +57,7 @@ void ast_print_impl(size_t indent, ast_t* ast){
 				string_print(t->str);
 				printf("] ");
 			}
-			printf(")");
+			printf(")\n");
 			break;
 		default:
 			print_indent(indent);
