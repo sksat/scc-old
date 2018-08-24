@@ -135,6 +135,15 @@ token_t* get_token(string_t *src){
 	return tok;
 }
 
+bool is_assignment_token(token_t *tok){
+	if(tok->type != tOperator) return false;
+	if(tok->str->size == 1){
+		if(string_get(tok->str, 0) == '=') return true;
+		else return false;
+	}else if(string_get(tok->str, 1) == '=') return true;
+	else return false;
+}
+
 const char* token_type2name(int type){
 	switch(type){
 		case tComment:	return "comment";

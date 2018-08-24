@@ -5,11 +5,14 @@
 #include "token.h"
 
 typedef enum {
+	aUnknown,
 	aGlobal,
 	aBlock,
 	aDefVar,
 	aExpr,
+	aAssign,
 	aVar,
+	aImm,
 } ASTType;
 
 typedef struct ast_t ast_t;

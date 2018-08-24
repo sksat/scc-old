@@ -29,6 +29,8 @@ extern token_t space_token;
 void init_token();
 token_t* get_token(string_t* src);
 
+bool is_assignment_token(token_t *tok);
+
 const char* token_type2name(int type);
 
 #endif

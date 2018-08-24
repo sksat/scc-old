@@ -1,6 +1,52 @@
 #include <stddef.h>
 #include "parse.h"
 
+void print_expr(ast_t* expr){
+	size_t i;
+	if(expr->type == aAssign){
+		printf("assign[");
+		string_print(expr->token->str);
+		printf("]<< ");
+	}else printf("expr[%u]<< ", expr->node->size);
+	for(i=0;i<expr->node->size;i++){
+		ast_t *var = vector_get(expr->node, i);
+		printf("[");
+		if(var->type == aExpr || var->type == aAssign) print_expr(var);
+		else string_print(var->token->str);
+		printf("] ");
+	}
+	printf(">>");
+}
+
+void parse_expr_assignment(ast_t *expr){
+	size_t i;
+	for(i=expr->node->size-1;0<i;i--){
+		ast_t *a = vector_get(expr->node, i);
+		if(a->type == aUnknown && is_assignment_token(a->token)){
+			bool flg = false;
+			size_t k;
+			expr->token	= a->token;
+			ast_t *lval	= ast_new(expr);
+			ast_t *rval	= ast_new(expr);
+			lval->type = rval->type = aExpr;
+			for(k=0;k<i;k++){
+				a = vector_get(expr->node, k);
+				if(is_assignment_token(a->token)) flg = true;
+				vector_push_back(lval->node, a);
+			}
+			if(flg) parse_expr_assignment(lval);
+			for(k=i+1;k<expr->node->size;k++){
+				a = vector_get(expr->node, k);
+				vector_push_back(rval->node, a);
+			}
+			expr->type = aAssign;
+			expr->node->size = 0;
+			vector_push_back(expr->node, lval);
+			vector_push_back(expr->node, rval);
+		}
+	}
+}
+
 void parse_expr_impl(ast_t* parent, vector_t* token_list, size_t start, size_t end){
 	ast_t* expr = ast_new(parent);
 	expr->type = aExpr;
@@ -18,11 +64,33 @@ void parse_expr_impl(ast_t* parent, vector_t* token_list, size_t start, size_t e
 			i = k+1;
 		}else{
 			ast_t* sub = ast_new(parent);
-			sub->type = aVar;
+			switch(tok->type){
+				case tDigit:
+				case tChar:
+					sub->type = aImm;
+					break;
+				case tOperator:
+					sub->type = aUnknown; // temporary
+					break;
+				case tUnknown:
+					sub->type = aVar;
+					break;
+				default:
+					error("unknown token");
+					break;
+			}
 			sub->token= tok;
 			vector_push_back(expr->node, sub);
 		}
 	}
+
+	print_expr(expr);
+	printf("\n");
+
+	parse_expr_assignment(expr);
+	print_expr(expr);
+	printf("\n");
+
 	vector_push_back(parent->node, expr);
 }
 

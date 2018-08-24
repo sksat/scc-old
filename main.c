@@ -40,7 +40,7 @@ int main(int argc, char **argv){
 
 	// parse
 	ast_t* ast = parse(token_list);
-	ast_print(ast);
+//	ast_print(ast);
 
 	// generate code
 
