@@ -10,12 +10,45 @@ void print_expr(ast_t* expr){
 	}else printf("expr[%u]<< ", expr->node->size);
 	for(i=0;i<expr->node->size;i++){
 		ast_t *var = vector_get(expr->node, i);
-		printf("[");
+		printf(" ");
 		if(var->type == aExpr || var->type == aAssign) print_expr(var);
 		else string_print(var->token->str);
-		printf("] ");
+		printf("  ");
 	}
 	printf(">>");
+}
+
+void parse_expr_rpn(ast_t* expr){
+	size_t i;
+	vector_t* buf = vector_new(0);
+	vector_t* stack = vector_new(0);
+	if(expr->type == aAssign) return;
+
+	for(i=0;i<expr->node->size;i++){
+		ast_t* a = vector_get(expr->node, i);
+		if(a->type == aUnknown){
+			if(stack->size == 0) vector_push_back(stack, a);
+			else{
+				ast_t* top = vector_top(stack);
+				if(token_get_priority(a->token) > token_get_priority(top->token))
+					vector_push_back(stack, a);
+				else{
+					vector_push_back(buf, top);
+					vector_pop(stack);
+					vector_push_back(stack, a);
+				}
+			}
+		}else vector_push_back(buf, a);
+	}
+
+	while(stack->size != 0){
+		ast_t* top = vector_top(stack);
+		vector_push_back(buf, top);
+		vector_pop(stack);
+	}
+
+	free(expr->node);
+	expr->node = buf;
 }
 
 void parse_expr_assignment(ast_t *expr){
@@ -90,6 +123,11 @@ void parse_expr_impl(ast_t* parent, vector_t* token_list, size_t start, size_t e
 	parse_expr_assignment(expr);
 	print_expr(expr);
 	printf("\n");
+
+	parse_expr_rpn(expr);
+//	printf("逆ポ: ");
+	print_expr(expr);
+	printf("\n\n");
 
 	vector_push_back(parent->node, expr);
 }
