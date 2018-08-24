@@ -32,3 +32,11 @@ void vector_push_back(vector_t *vec, void *ptr){
 	vec->data[vec->size] = ptr;
 	vec->size++;
 }
+
+void* vector_top(vector_t *vec){
+	return vector_get(vec, vec->size-1);
+}
+
+void vector_pop(vector_t *vec){
+	vec->size--;
+}

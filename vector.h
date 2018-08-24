@@ -13,4 +13,7 @@ void vector_set(vector_t *vec, size_t pos, void *ptr);
 void* vector_get(vector_t *vec, size_t pos);
 void vector_push_back(vector_t *vec, void *ptr);
 
+void* vector_top(vector_t* vec);
+void vector_pop(vector_t* vec);
+
 #endif
