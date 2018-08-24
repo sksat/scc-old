@@ -144,6 +144,39 @@ bool is_assignment_token(token_t *tok){
 	else return false;
 }
 
+/*
+9: * / %
+8: + -
+7: << >>
+6: < <= > >=
+5: == !=
+4: &
+3: ^
+2: |
+1: &&
+0: ||
+ */
+size_t token_get_priority(token_t *tok){
+	char c1 = string_get(tok->str, 0);
+	if(tok->str->size == 1){
+		switch(c1){
+			case '*':
+			case '/':
+			case '%':
+				return 9;
+			case '+':
+			case '-':
+				return 8;
+			case '&':
+				return 4;
+			case '^':
+				return 3;
+			case '|':
+				return 2;
+		}
+	}else return 0;
+}
+
 const char* token_type2name(int type){
 	switch(type){
 		case tComment:	return "comment";
